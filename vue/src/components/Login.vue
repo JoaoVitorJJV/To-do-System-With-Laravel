@@ -69,6 +69,7 @@ export default {
     },
     methods: {
         swithType() {
+            // Change the type (finished or not finished in the task)
             this.isRightPanelActive = !this.isRightPanelActive
         },
         async handleLogin() {
@@ -78,6 +79,7 @@ export default {
                     this.isError = true;
                     this.errorMessage = "E-mail ou senha incorretos, tente novamente."
                 } else {
+                    // Create session and redirect user
                     localStorage.setItem("user", JSON.stringify(res.user));
                     this.$router.push('/home');
                 }
@@ -89,10 +91,13 @@ export default {
         },
         async handleRegister() {
             const res = await register(this.registerEmail, this.registerName, this.registerPassword);
+
+            // Checks the request for errors
             if (Object.prototype.hasOwnProperty.call(res, "errors")) {
                 this.isError = true;
                 this.errorMessage = res.message;
             } else {
+                 // Create session and redirect user
                 localStorage.setItem("user", JSON.stringify(res.user));
                 this.$router.push('/home');
             }
