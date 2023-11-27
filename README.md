@@ -12,6 +12,7 @@ cp .env.example .env
 ```
 
 ### Atualize as variáveis de ambiente no arquivo .env
+## O container do docker já fornece o banco de dados "laravel", basta usá-lo no .env
 ```dotenv
 APP_URL=http://localhost:8989
 
