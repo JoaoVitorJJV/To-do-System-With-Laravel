@@ -23,6 +23,7 @@ import { createTask, getTaskByUserId } from "../api/api.js";
 const storage = localStorage.getItem('user');
 let user;
 
+// get the user in session or redirect to login page
 if (storage) {
     user = JSON.parse(storage);
 } else {
@@ -59,10 +60,13 @@ export default {
             this.isCreateTaskError = false;
             if (this.dataTask.due_date && this.dataTask.title) {
                 const res = await createTask(this.dataTask);
+
+                // Verify if have error in requisition
                 if(Object.prototype.hasOwnProperty.call(res, "errors")){
                     this.isCreateTaskError = true;
                     this.createTaskErrorMessage = res.message;
                 }else{
+                    // Create the task and place it at the beginning of the array
                    this.tasks.unshift(res.data);
                 }
             }
