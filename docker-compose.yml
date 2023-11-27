@@ -25,6 +25,7 @@ services:
         working_dir: /app
         volumes:
             - ./vue:/app
+            - /app/node_modules
         depends_on:
             - app
         command: ["npm", "run", "serve"]
