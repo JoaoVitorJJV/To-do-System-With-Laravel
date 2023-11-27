@@ -42,13 +42,13 @@ const BASE_URL = "http://localhost:8989";
 docker-compose up -d
 ```
 
-### Acesse o container do Laravel
+### Acesse o container da Aplicação (app-1) ou (app)
 ```bash
 docker exec -it app bin/bash
 ```
 ou
 ```bash
-docker exec -it To-do-System-With-Laravel-app-1 bin/bash
+docker exec -it to-do-system-with-laravel-app-1 bin/bash
 ```
 
 ### Rode o comando do composer
