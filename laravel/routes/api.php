@@ -25,7 +25,6 @@ Route::prefix('/task')->group(function () {
     Route::get('/createdby/{userID}', [TaskController::class, 'showByUserId']);
     Route::put('{id}', [TaskController::class, 'update']);
     Route::patch('/change/{id}', [TaskController::class, 'changeFinished']);
-    // Route::patch('/incomplete/{id}', [TaskController::class, 'markAsIncomplete']);
     Route::delete('{id}', [TaskController::class, 'destroy']);
 });
 
