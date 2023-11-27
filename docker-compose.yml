@@ -1,0 +1,68 @@
+version: "3.7"
+
+services:
+    app:
+        build:
+            context: ./laravel
+            dockerfile: Dockerfile
+        restart: unless-stopped
+        working_dir: /var/www/
+        volumes:
+            - ./laravel:/var/www
+        depends_on:
+            - redis
+        networks:
+            - laravel
+    vue:
+        build:
+            context: ./vue
+            dockerfile: Dockerfile
+        restart: always
+        ports:
+            - "3000:3000"
+        environment:
+            - CHOKIDAR_USEPOLLING=true
+        working_dir: /app
+        volumes:
+            - ./vue:/app
+        depends_on:
+            - app
+        command: ["npm", "run", "serve"]
+
+    # nginx
+    nginx:
+        image: nginx:alpine
+        restart: unless-stopped
+        ports:
+            - "8989:80"
+        volumes:
+            - ./laravel:/var/www
+            - ./laravel/docker/nginx/:/etc/nginx/conf.d/
+        networks:
+            - laravel
+
+    # db mysql
+    db:
+        image: mysql:5.7.22
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE:-laravel}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
+            MYSQL_PASSWORD: ${DB_PASSWORD:-userpass}
+            MYSQL_USER: ${DB_USERNAME:-username}
+        volumes:
+            - ./laravel/.docker/mysql/dbdata:/var/lib/mysql
+        ports:
+            - "3388:3306"
+        networks:
+            - laravel
+
+    # redis
+    redis:
+        image: redis:latest
+        networks:
+            - laravel
+
+networks:
+    laravel:
+        driver: bridge
