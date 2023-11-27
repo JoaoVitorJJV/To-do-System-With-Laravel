@@ -18,7 +18,7 @@ return new class extends Migration
             $table->tinyInteger('is_finished')->default(0);
             $table->integer('created_user_id');
             $table->date('due_date');
-        });table->timestamps();
+        });
     }
 
     /**
